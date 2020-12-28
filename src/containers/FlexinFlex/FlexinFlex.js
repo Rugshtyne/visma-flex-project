@@ -8,6 +8,7 @@ function FlexinFlex(props) {
         <React.Fragment>
             <h1>I'm FlexinFlex</h1>
             {/* <Menu></Menu> */}
+            {/*  */}
             <Level></Level>
         </React.Fragment>
     );
