@@ -1,18 +1,33 @@
-import React from 'react';
-
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+
 import Tutorial from '../../components/Tutorial/Tutorial';
+import Task from '../../components/Task/Task';
 
 function Level(props) {
+    const [tutorialMode, setTutorialMode] = useState(1);
+
+    const toggleTutorialMode = () => {
+        tutorialMode === 1 ? setTutorialMode(0) : setTutorialMode(1);
+    }
+
     return (
-        <div>
+        <React.Fragment>
             <h2>{props.levelConfig.title}</h2>
-            <Tutorial 
+            <button onClick={toggleTutorialMode}>To Task</button>
+            {tutorialMode ? 
+                <Tutorial
                 tutorial={props.levelConfig.tutorial}
                 tutorialImg={props.levelConfig.tutorialImg}
                 title={props.levelConfig.title}
                 properties={props.levelConfig.properties} />
-        </div>
+                :
+                <Task 
+                    task={props.levelConfig.task}
+                    taskAnswer={props.levelConfig.taskAnswer}
+                    taskAnswerString={props.levelConfig.taskAnswerString}/>
+            }    
+        </React.Fragment>
     );
 }
 
@@ -23,7 +38,8 @@ Level.propTypes = {
         tutorialImg: PropTypes.string,
         properties: PropTypes.objectOf(PropTypes.string),
         task: PropTypes.string.isRequired,
-        taskAnswer: PropTypes.string.isRequired
+        taskAnswer: PropTypes.objectOf(PropTypes.string),
+        taskAnswerString: PropTypes.string
     })
 };
 

@@ -1,0 +1,22 @@
+.Task {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 50%;
+}
+
+.Task textarea {
+    font-family: inherit;
+    resize: none;
+    font-size: 1em;
+    color:ivory;
+    background-color: #333333;
+    border-radius: 16px;
+    height: 300px;
+    outline: none;
+}
+
+.TaskArea {
+    display: flex;
+    width: 700px;
+}

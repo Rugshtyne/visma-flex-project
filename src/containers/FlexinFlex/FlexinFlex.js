@@ -15,14 +15,21 @@ export default function FlexinFlex(props) {
                 'column-reverse': 'same as row-reverse but bottom to top'
             },
             task: 'Edit the box class CSS so that the three boxes would line up in a column.',
-            taskAnswer: 'flex-direction: column'
+            taskAnswer: {
+                'display': 'flex',
+                'flexDirection': 'column'
+            },
+            taskAnswerString: 'display: flex; flex-direction: column;'
         },
         {
             title: 'Level 2: flex-grow',
             tutorial: 'This defines the ability for a flex item to grow if necessary. It accepts a unitless value that serves as a proportion. It dictates what amount of the available space inside the flex container the item should take up. If all items have flex-grow set to 1, the remaining space in the container will be distributed equally to all children. If one of the children has a value of 2, the remaining space would take up twice as much space as the others (or it will try to, at least).',
             tutorialImg: 'https://css-tricks.com/wp-content/uploads/2018/10/flex-grow.svg',
             task: 'Edit the middle-box class CSS so that the middle box would take up twice the size of the other two boxes.',
-            taskAnswer: 'flex-grow: 2'
+            taskAnswer: {
+                'flex-grow': '2'
+            },
+            taskAnswerString: 'flex-grow: 2'
         }
     ]);
     const [currentLevel, setCurrentLevel] = useState(0);
