@@ -13,7 +13,7 @@ const Tutorial = (props) => {
     title,
   } = props;
 
-  if (properties) {
+  if (!properties.default) {
     renderProperties = Object.keys(properties)
       .map((pptKey) => [properties[pptKey]]
         .map((pptDesc) => (
@@ -49,7 +49,9 @@ Tutorial.propTypes = {
 };
 
 Tutorial.defaultProps = {
-  properties: 'No properties here.',
+  properties: {
+    default: 'No properties here.',
+  },
 };
 
 export default Tutorial;
