@@ -3,7 +3,7 @@ import React from 'react';
 import './App.css';
 import FlexinFlex from './containers/FlexinFlex/FlexinFlex';
 
-const App = () => (
+const App: React.FC = () => (
   <div className="App">
     <FlexinFlex />
   </div>

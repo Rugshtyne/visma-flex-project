@@ -4,12 +4,17 @@ import PropTypes from 'prop-types';
 
 import classes from './Task.module.css';
 
+interface TaskProps {
+  task: string;
+  taskAnswer: string;
+}
+
 const Viewbox = styled.div`
   width: 500px;
   margin-left: 20px;
   border: 2px solid #333333;
   border-radius: 16px;
-  ${(props) => props.styling}
+  ${(props) => props.theme.styling}
   transition-duration: 1s;
   div {
     display: inline-block;
@@ -17,7 +22,7 @@ const Viewbox = styled.div`
   }
 `;
 
-const Task = (props) => {
+const Task = (props: TaskProps): JSX.Element => {
   const [inputValue, setInputValue] = useState('');
   const [success, setSuccess] = useState(0);
 
@@ -36,7 +41,7 @@ const Task = (props) => {
   };
 
   // blogai comparinasi stringai
-  const inputChangeHandler = (event) => {
+  const inputChangeHandler = (event: { target: { value: React.SetStateAction<string>; }; }) => {
     setInputValue(event.target.value);
     if (compareAnswer()) {
       setSuccess(1);
@@ -48,7 +53,7 @@ const Task = (props) => {
       <p>{task}</p>
       <div className={classes.TaskArea}>
         <textarea value={inputValue} onChange={inputChangeHandler} />
-        <Viewbox styling={inputValue}>
+        <Viewbox theme={{ styling: { inputValue } }}>
           <div style={rectStyle} />
           <div style={rectStyle} />
           <div style={rectStyle} />

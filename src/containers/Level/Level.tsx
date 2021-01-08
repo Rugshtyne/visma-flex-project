@@ -1,15 +1,24 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 
 import Tutorial from '../../components/Tutorial/Tutorial';
 import Task from '../../components/Task/Task';
 
-const Level = (props) => {
+interface LevelProps {
+  levelConfig: {
+    title: string;
+    tutorial: string;
+    tutorialImg: string;
+    properties?: { [key: string]: string}[];
+    task: string;
+    taskAnswer: string;
+  };
+}
+
+const Level = ({ levelConfig }: LevelProps): JSX.Element => {
   const [tutorialMode, setTutorialMode] = useState(1);
 
   const toggleTutorialMode = () => (tutorialMode === 1 ? setTutorialMode(0) : setTutorialMode(1));
 
-  const { levelConfig } = props;
   const {
     title,
     tutorial,
@@ -39,17 +48,6 @@ const Level = (props) => {
         )}
     </>
   );
-};
-
-Level.propTypes = {
-  levelConfig: PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    tutorial: PropTypes.string.isRequired,
-    tutorialImg: PropTypes.string,
-    properties: PropTypes.objectOf(PropTypes.string),
-    task: PropTypes.string.isRequired,
-    taskAnswer: PropTypes.string,
-  }).isRequired,
 };
 
 export default Level;

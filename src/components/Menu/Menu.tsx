@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Menu = () => (
+const Menu = (): JSX.Element => (
   <h2>This will be menu with menu items</h2>
 );
 
