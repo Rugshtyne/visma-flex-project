@@ -14,17 +14,32 @@ interface TaskProps {
   taskAnswer: TaskAnswer[];
 }
 
+// const formatStringToCamelCase = (str: string) => {
+//   const splitted = str.split('-');
+//   if (splitted.length === 1) return splitted[0];
+//   return (
+//     splitted[0]
+//     + splitted
+//       .slice(1)
+//       .map((word: string) => word[0].toUpperCase() + word.slice(1))
+//       .join('')
+//   );
+// };
+
 const Viewbox = styled.div`
   width: 500px;
   margin-left: 20px;
   border: 2px solid #333333;
   border-radius: 16px;
-  ${(props) => props.theme.styling}
   transition-duration: 1s;
-  div {
+  .box {
     display: inline-block;
     margin: 10px;
+    height: 20px;
+    width: 50px;
+    background-color: red;
   }
+  ${(props) => props.theme.styling}
 `;
 
 const Task = (props: TaskProps): JSX.Element => {
@@ -32,13 +47,6 @@ const Task = (props: TaskProps): JSX.Element => {
   const [success, setSuccess] = useState(false);
 
   const { task, taskAnswer } = props;
-
-  // temp
-  const rectStyle = {
-    height: '20px',
-    width: '50px',
-    backgroundColor: 'red',
-  };
 
   const compareAnswer = () => {
     let tempSuccessFlag = false;
@@ -78,9 +86,11 @@ const Task = (props: TaskProps): JSX.Element => {
       <div className={classes.TaskArea}>
         <textarea value={inputValue} onChange={inputChangeHandler} />
         <Viewbox theme={{ styling: inputValue }}>
-          <div style={rectStyle} />
-          <div className="box2" style={rectStyle} />
-          <div style={rectStyle} />
+          <div className="boxes">
+            <div className="box box1" />
+            <div className="box box2" />
+            <div className="box box3" />
+          </div>
         </Viewbox>
       </div>
       {success ? <h2>SUCCESS!</h2> : null}

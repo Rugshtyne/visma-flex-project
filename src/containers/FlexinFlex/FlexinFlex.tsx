@@ -16,7 +16,7 @@ const FlexinFlex = (): JSX.Element => {
       ],
       task: 'Edit the box class CSS so that the three boxes would line up in a column.',
       taskAnswer: [{
-        selector: '.box',
+        selector: '.boxes',
         rules: [
           { key: 'display', value: 'flex' },
           { key: 'flex-direction', value: 'column' },
@@ -30,7 +30,7 @@ const FlexinFlex = (): JSX.Element => {
       tutorialImg: 'https://css-tricks.com/wp-content/uploads/2018/10/flex-grow.svg',
       task: 'Edit the middle-box class CSS so that the middle box would take up twice the size of the other two boxes.',
       taskAnswer: [{
-        selector: '.box',
+        selector: '.box2',
         rules: [
           { key: 'flex-grow', value: '2' },
         ],
