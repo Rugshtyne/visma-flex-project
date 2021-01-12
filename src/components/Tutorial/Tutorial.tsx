@@ -3,10 +3,15 @@ import React from 'react';
 
 import classes from './Tutorial.module.css';
 
+export interface TutorialProperties {
+  property: string;
+  description: string;
+}
+
 interface TutorialProps {
   tutorial: string;
   tutorialImg: string;
-  properties?: { [key: string]: string }[];
+  properties?: TutorialProperties[];
   title: string;
 }
 
@@ -22,10 +27,10 @@ const Tutorial = (props: TutorialProps): JSX.Element => {
 
   if (properties) {
     renderProperties = properties.map((property) => (
-      <li key={property.key}>
-        <strong>{property.key}</strong>
-        :
-        {property.value}
+      <li key={property.property}>
+        <strong>{property.property}</strong>
+        {': '}
+        {property.description}
       </li>
     ));
   }

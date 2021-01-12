@@ -1,20 +1,18 @@
 import React, { useState } from 'react';
 
-import Tutorial from '../../components/Tutorial/Tutorial';
-import Task from '../../components/Task/Task';
+import Tutorial, { TutorialProperties } from '../../components/Tutorial/Tutorial';
+import Task, { TaskAnswer } from '../../components/Task/Task';
 
-interface LevelProps {
-  levelConfig: {
-    title: string;
-    tutorial: string;
-    tutorialImg: string;
-    properties?: { [key: string]: string}[];
-    task: string;
-    taskAnswer: string;
-  };
+export interface LevelProps {
+  title: string;
+  tutorial: string;
+  tutorialImg: string;
+  properties?: TutorialProperties[];
+  task: string;
+  taskAnswer: TaskAnswer[];
 }
 
-const Level = ({ levelConfig }: LevelProps): JSX.Element => {
+const Level = (props: LevelProps): JSX.Element => {
   const [tutorialMode, setTutorialMode] = useState(1);
 
   const toggleTutorialMode = () => (tutorialMode === 1 ? setTutorialMode(0) : setTutorialMode(1));
@@ -26,7 +24,7 @@ const Level = ({ levelConfig }: LevelProps): JSX.Element => {
     properties,
     task,
     taskAnswer,
-  } = levelConfig;
+  } = props;
 
   return (
     <>

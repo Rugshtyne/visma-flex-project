@@ -1,12 +1,17 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
+import { parseCSS } from 'css-parser';
 
 import classes from './Task.module.css';
 
+export interface TaskAnswer {
+  selector: string;
+  rules: {key: string, value: string}[]
+}
+
 interface TaskProps {
   task: string;
-  taskAnswer: string;
+  taskAnswer: TaskAnswer[];
 }
 
 const Viewbox = styled.div`
@@ -24,7 +29,9 @@ const Viewbox = styled.div`
 
 const Task = (props: TaskProps): JSX.Element => {
   const [inputValue, setInputValue] = useState('');
-  const [success, setSuccess] = useState(0);
+  const [success, setSuccess] = useState(false);
+
+  const { task, taskAnswer } = props;
 
   // temp
   const rectStyle = {
@@ -33,46 +40,52 @@ const Task = (props: TaskProps): JSX.Element => {
     backgroundColor: 'red',
   };
 
-  const { task, taskAnswer } = props;
-
   const compareAnswer = () => {
-    const regex = new RegExp(taskAnswer);
-    return inputValue.search(regex);
+    let tempSuccessFlag = false;
+    const parsedAnswer = parseCSS(inputValue);
+    // --- Tikrinu ar visi atsakymo style'ai yra tarp išparse'into CSS objekto:
+    // Kiekvienam atsakymo style blokui ...
+    tempSuccessFlag = taskAnswer.every((answerStyle) => (
+      // ir kai kuriems išparse'into atsakymo style blokams ...
+      parsedAnswer.some((parsedStyle) => (
+        // turi sutapti atsakymo style bloko ir išparse'into style bloko selectors
+        // ir tokiu atveju kiekvienam tokio atsakymo style rule'ui ...
+        answerStyle.selector === parsedStyle.selector && answerStyle.rules.every((answRule) => (
+          // ir kai kuriems išparse'into style bloko rule'ams ...
+          parsedStyle.rules.some((parsedRule: { key: string; value: string; }) => (
+            // turi sutapti atsakymo rule'o key ir value su išparse'into rule'o key ir value
+            answRule.key === parsedRule.key && answRule.value === parsedRule.value
+          ))
+        ))
+      ))
+    ));
+    if (tempSuccessFlag) {
+      setSuccess(true);
+    } else setSuccess(false);
   };
 
-  // blogai comparinasi stringai
   const inputChangeHandler = (event: { target: { value: React.SetStateAction<string>; }; }) => {
     setInputValue(event.target.value);
-    if (compareAnswer()) {
-      setSuccess(1);
-    } else setSuccess(0);
   };
+
+  useEffect(() => {
+    compareAnswer();
+  }, [inputValue]);
 
   return (
     <div className={classes.Task}>
       <p>{task}</p>
       <div className={classes.TaskArea}>
         <textarea value={inputValue} onChange={inputChangeHandler} />
-        <Viewbox theme={{ styling: { inputValue } }}>
+        <Viewbox theme={{ styling: inputValue }}>
           <div style={rectStyle} />
-          <div style={rectStyle} />
+          <div className="box2" style={rectStyle} />
           <div style={rectStyle} />
         </Viewbox>
       </div>
       {success ? <h2>SUCCESS!</h2> : null}
-      <p>
-        {`Input value: ${inputValue}`}
-      </p>
-      <p>
-        {`Answer value: ${taskAnswer}`}
-      </p>
     </div>
   );
-};
-
-Task.propTypes = {
-  task: PropTypes.string.isRequired,
-  taskAnswer: PropTypes.string.isRequired,
 };
 
 export default Task;
