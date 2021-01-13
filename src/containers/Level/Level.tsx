@@ -13,9 +13,9 @@ export interface LevelProps {
 }
 
 const Level = (props: LevelProps): JSX.Element => {
-  const [tutorialMode, setTutorialMode] = useState(1);
+  const [tutorialMode, setTutorialMode] = useState(true);
 
-  const toggleTutorialMode = () => (tutorialMode === 1 ? setTutorialMode(0) : setTutorialMode(1));
+  const toggleTutorialMode = () => (tutorialMode ? setTutorialMode(false) : setTutorialMode(true));
 
   const {
     title,
@@ -30,20 +30,20 @@ const Level = (props: LevelProps): JSX.Element => {
     <>
       <h2>{title}</h2>
       <button type="button" onClick={toggleTutorialMode}>To Task</button>
-      {tutorialMode ? (
+      {tutorialMode && (
         <Tutorial
           tutorial={tutorial}
           tutorialImg={tutorialImg}
           title={title}
           properties={properties}
         />
-      )
-        : (
-          <Task
-            task={task}
-            taskAnswer={taskAnswer}
-          />
-        )}
+      )}
+      {!tutorialMode && (
+        <Task
+          task={task}
+          taskAnswer={taskAnswer}
+        />
+      )}
     </>
   );
 };

@@ -3,7 +3,8 @@ import React, { useState } from 'react';
 import Level, { LevelProps } from '../Level/Level';
 
 const FlexinFlex = (): JSX.Element => {
-  const [levels] = useState<LevelProps[]>([
+  // Gal pamovint i const, arba pvz i JSON faila pamovint
+  const [levels, setLevels] = useState<LevelProps[]>([
     {
       title: 'Level 1: flex-direction',
       tutorial: 'This establishes the main-axis, thus defining the direction flex items are placed in the flex container. Flexbox is (aside from optional wrapping) a single-direction layout concept. Think of flex items as primarily laying out either in horizontal rows or vertical columns.',

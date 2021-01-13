@@ -1,5 +1,4 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
 
 import classes from './Tutorial.module.css';
 
@@ -23,7 +22,9 @@ const Tutorial = (props: TutorialProps): JSX.Element => {
     title,
   } = props;
 
-  let renderProperties: JSX.Element | JSX.Element[] = <p>No properties here.</p>;
+  // persirašyt į loginį branchą, pvz noContent JSX.Elementą ir sumappintą,
+  // arba iškelt į template mapą
+  let renderProperties: JSX.Element | JSX.Element[] = <p>no props</p>;
 
   if (properties) {
     renderProperties = properties.map((property) => (
@@ -36,32 +37,21 @@ const Tutorial = (props: TutorialProps): JSX.Element => {
   }
 
   return (
-    <div className={classes.Tutorial}>
-      <div className={classes.Description}>
+    <div className={classes.tutorial}>
+      <div className={classes.description}>
         <p>{tutorial}</p>
         <img
           src={tutorialImg}
           alt={title}
         />
       </div>
-      <ul>
-        {renderProperties}
-      </ul>
+      <div className={classes.properties}>
+        <ul>
+          {renderProperties}
+        </ul>
+      </div>
     </div>
   );
 };
-
-// Tutorial.propTypes = {
-//   tutorial: PropTypes.string.isRequired,
-//   tutorialImg: PropTypes.string.isRequired,
-//   title: PropTypes.string.isRequired,
-//   properties: PropTypes.objectOf(PropTypes.string),
-// };
-
-// Tutorial.defaultProps = {
-//   properties: {
-//     default: 'No properties here.',
-//   },
-// };
 
 export default Tutorial;

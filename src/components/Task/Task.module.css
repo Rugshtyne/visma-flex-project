@@ -1,11 +1,17 @@
-.Task {
+.task {
     display: flex;
     flex-direction: column;
     align-items: center;
     height: 50%;
+    width: 100%;
 }
 
-.Task textarea {
+.task p {
+    display: flex;
+    width: 50%;
+}
+
+.task textarea {
     font-family: inherit;
     resize: none;
     font-size: 1em;
@@ -16,12 +22,12 @@
     outline: none;
 }
 
-.TaskArea {
+.taskArea {
     display: flex;
     width: 700px;
 }
 
-.viewbox {
+.viewBox {
     width: 500px;
       margin-left: 20px;
       border: 2px solid #333333;
