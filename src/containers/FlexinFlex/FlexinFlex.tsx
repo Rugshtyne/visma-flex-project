@@ -9,7 +9,7 @@ const FlexinFlex = (): JSX.Element => {
       tutorial: 'This establishes the main-axis, thus defining the direction flex items are placed in the flex container. Flexbox is (aside from optional wrapping) a single-direction layout concept. Think of flex items as primarily laying out either in horizontal rows or vertical columns.',
       tutorialImg: 'https://css-tricks.com/wp-content/uploads/2018/10/flex-direction.svg',
       properties: [
-        { property: 'row', description: 'left to right in ltr; right to left in rtl' },
+        { property: 'row (default)', description: 'left to right in ltr; right to left in rtl' },
         { property: 'row-reverse', description: 'right to left in ltr; left to right in rtl' },
         { property: 'column', description: 'same as row but top to bottom' },
         { property: 'column-reverse', description: 'same as row-reverse but bottom to top' },
@@ -25,16 +25,36 @@ const FlexinFlex = (): JSX.Element => {
     },
 
     {
-      title: 'Level 2: flex-grow',
-      tutorial: 'This defines the ability for a flex item to grow if necessary. It accepts a unitless value that serves as a proportion. It dictates what amount of the available space inside the flex container the item should take up. If all items have flex-grow set to 1, the remaining space in the container will be distributed equally to all children. If one of the children has a value of 2, the remaining space would take up twice as much space as the others (or it will try to, at least).',
-      tutorialImg: 'https://css-tricks.com/wp-content/uploads/2018/10/flex-grow.svg',
-      task: 'Edit the middle-box class CSS so that the middle box would take up twice the size of the other two boxes.',
-      taskAnswer: [{
-        selector: '.box2',
-        rules: [
-          { key: 'flex-grow', value: '2' },
-        ],
-      }],
+      title: 'Level 2: align-self',
+      tutorial: `This allows the default alignment (or the one specified by align-items) to be overridden for individual flex items.
+
+      Please see the align-items explanation to understand the available values.
+
+      Note that float, clear and vertical-align have no effect on a flex item.`,
+      tutorialImg: 'https://css-tricks.com/wp-content/uploads/2018/10/align-self.svg',
+      properties: [
+        { property: 'stretch (default)', description: 'stretch to fill the container (still respect min-width/max-width)' },
+        { property: 'flex-start / start / self-start', description: 'items are placed at the start of the cross axis. The difference between these is subtle, and is about respecting the flex-direction rules or the writing-mode rules.' },
+        { property: 'flex-end / end / self-end', description: 'items are placed at the end of the cross axis. The difference again is subtle and is about respecting flex-direction rules vs. writing-mode rules.' },
+        { property: 'center', description: 'items are centered in the cross-axis' },
+        { property: 'baseline', description: 'items are aligned such as their baselines align' },
+      ],
+      task: 'Edit the boxes class so that all of the boxes would line up in a column and edit the middle-box (box2) class CSS so that the middle box would align itself to the right of the viewbox.',
+      taskAnswer: [
+        {
+          selector: '.box2',
+          rules: [
+            { key: 'align-self', value: 'flex-end' },
+          ],
+        },
+        {
+          selector: '.boxes',
+          rules: [
+            { key: 'display', value: 'flex' },
+            { key: 'flex-direction', value: 'column' },
+          ],
+        },
+      ],
     },
   ]);
   const [currentLevel, setCurrentLevel] = useState(0);

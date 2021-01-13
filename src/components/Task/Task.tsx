@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
 import { parseCSS } from 'css-parser';
 
 import classes from './Task.module.css';
+
+interface StyleSheet {
+  [key: string]: React.CSSProperties;
+}
 
 export interface TaskAnswer {
   selector: string;
@@ -14,37 +17,22 @@ interface TaskProps {
   taskAnswer: TaskAnswer[];
 }
 
-// const formatStringToCamelCase = (str: string) => {
-//   const splitted = str.split('-');
-//   if (splitted.length === 1) return splitted[0];
-//   return (
-//     splitted[0]
-//     + splitted
-//       .slice(1)
-//       .map((word: string) => word[0].toUpperCase() + word.slice(1))
-//       .join('')
-//   );
-// };
-
-const Viewbox = styled.div`
-  width: 500px;
-  margin-left: 20px;
-  border: 2px solid #333333;
-  border-radius: 16px;
-  transition-duration: 1s;
-  .box {
-    display: inline-block;
-    margin: 10px;
-    height: 20px;
-    width: 50px;
-    background-color: red;
-  }
-  ${(props) => props.theme.styling}
-`;
+const formatStringToCamelCase = (str: string) => {
+  const splitted = str.split('-');
+  if (splitted.length === 1) return splitted[0];
+  return (
+    splitted[0]
+    + splitted
+      .slice(1)
+      .map((word: string) => word[0].toUpperCase() + word.slice(1))
+      .join('')
+  );
+};
 
 const Task = (props: TaskProps): JSX.Element => {
   const [inputValue, setInputValue] = useState('');
   const [success, setSuccess] = useState(false);
+  const [boxesStyleSheet, setBoxesStyleSheet] = useState<StyleSheet>({});
 
   const { task, taskAnswer } = props;
 
@@ -76,8 +64,21 @@ const Task = (props: TaskProps): JSX.Element => {
     setInputValue(event.target.value);
   };
 
+  const convertCSSObjToStyleSheet = (cssObject: CSS.Object[]) => {
+    const convertedObject: StyleSheet = {};
+    cssObject.forEach((cssObjectEntry) => {
+      convertedObject[cssObjectEntry.selector.substr(1)] = Object.assign({},
+        ...cssObjectEntry.rules
+          .map((rule: { key: string; value: string; }) => (
+            { [formatStringToCamelCase(rule.key)]: rule.value }
+          )));
+    });
+    return convertedObject;
+  };
+
   useEffect(() => {
     compareAnswer();
+    setBoxesStyleSheet(convertCSSObjToStyleSheet(parseCSS(inputValue)));
   }, [inputValue]);
 
   return (
@@ -85,13 +86,13 @@ const Task = (props: TaskProps): JSX.Element => {
       <p>{task}</p>
       <div className={classes.TaskArea}>
         <textarea value={inputValue} onChange={inputChangeHandler} />
-        <Viewbox theme={{ styling: inputValue }}>
-          <div className="boxes">
-            <div className="box box1" />
-            <div className="box box2" />
-            <div className="box box3" />
+        <div className={classes.viewbox}>
+          <div className="boxes" style={boxesStyleSheet.boxes ? boxesStyleSheet.boxes : undefined}>
+            <div className={`${classes.box} box1`} style={boxesStyleSheet.box1 ? boxesStyleSheet.box1 : undefined} />
+            <div className={`${classes.box} box2`} style={boxesStyleSheet.box2 ? boxesStyleSheet.box2 : undefined} />
+            <div className={`${classes.box} box3`} style={boxesStyleSheet.box3 ? boxesStyleSheet.box3 : undefined} />
           </div>
-        </Viewbox>
+        </div>
       </div>
       {success ? <h2>SUCCESS!</h2> : null}
     </div>

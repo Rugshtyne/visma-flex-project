@@ -21,7 +21,7 @@
     width: 700px;
 }
 
-/* .viewbox {
+.viewbox {
     width: 500px;
       margin-left: 20px;
       border: 2px solid #333333;
@@ -35,4 +35,4 @@
     height: 20px;
     width: 50px;
     background-color: red;
-    } */
+}
