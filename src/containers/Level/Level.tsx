@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import Tutorial, { TutorialProperties } from '../../components/Tutorial/Tutorial';
-import Task, { TaskAnswer } from '../../components/Task/Task';
+import Task from '../../components/Task/Task';
 
 export interface LevelProps {
   title: string;
@@ -9,7 +9,7 @@ export interface LevelProps {
   tutorialImg: string;
   properties?: TutorialProperties[];
   task: string;
-  taskAnswer: TaskAnswer[];
+  taskAnswer: CSS.Object[];
 }
 
 const Level = (props: LevelProps): JSX.Element => {

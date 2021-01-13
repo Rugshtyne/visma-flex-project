@@ -11,6 +11,7 @@
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
     "css-parser": "github:sibvrv/css-parser",
+    "lodash": "^4.17.20",
     "prop-types": "^15.7.2",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
@@ -43,6 +44,7 @@
     ]
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.167",
     "@typescript-eslint/eslint-plugin": "^4.12.0",
     "@typescript-eslint/parser": "^4.12.0",
     "eslint": "^7.17.0",

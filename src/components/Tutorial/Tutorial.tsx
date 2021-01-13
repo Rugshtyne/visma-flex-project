@@ -22,20 +22,6 @@ const Tutorial = (props: TutorialProps): JSX.Element => {
     title,
   } = props;
 
-  // persirašyt į loginį branchą, pvz noContent JSX.Elementą ir sumappintą,
-  // arba iškelt į template mapą
-  let renderProperties: JSX.Element | JSX.Element[] = <p>no props</p>;
-
-  if (properties) {
-    renderProperties = properties.map((property) => (
-      <li key={property.property}>
-        <strong>{property.property}</strong>
-        {': '}
-        {property.description}
-      </li>
-    ));
-  }
-
   return (
     <div className={classes.tutorial}>
       <div className={classes.description}>
@@ -46,9 +32,19 @@ const Tutorial = (props: TutorialProps): JSX.Element => {
         />
       </div>
       <div className={classes.properties}>
-        <ul>
-          {renderProperties}
-        </ul>
+        {properties
+          ? (
+            <ul>
+              {properties.map((property) => (
+                <li key={property.property}>
+                  <strong>{property.property}</strong>
+                  {': '}
+                  {property.description}
+                </li>
+              ))}
+            </ul>
+          )
+          : <p>No properties here.</p>}
       </div>
     </div>
   );
