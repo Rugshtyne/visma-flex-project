@@ -4,7 +4,6 @@ export interface StyleSheet {
   [key: string]: React.CSSProperties;
 }
 
-// Iskelt i util funkcija
 export const convertCSSObjToStyleSheet = (cssObject: CSS.Object[]): StyleSheet => {
   const convertedObject: StyleSheet = {};
   cssObject.forEach((cssObjectEntry) => {
