@@ -85,6 +85,10 @@ describe('compareAnswer', () => {
 
   const parsedObject4: CSS.Object[] = [];
 
+  // TODO:
+  // - pridėt case abiems tuštiems objektams, praseiti pro conditionų edge case'us, coverage
+  // - pamovint objektus į jų test case'us
+
   test('compares a provided answer CSS.Object[] to a parsed one, having all of the answer object\'s selectors and their rules, to equal true', () => {
     expect(compareAnswer(answerObject, parsedObject1)).toBe(true);
   });

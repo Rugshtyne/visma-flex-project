@@ -3,6 +3,15 @@ import React, { useState } from 'react';
 import Tutorial, { TutorialProperties } from '../../components/Tutorial/Tutorial';
 import Task from '../../components/Task/Task';
 
+// TODO:
+// - Levelis gali tureti multiple tutorials ir multiple img, properties,
+//   tiesiog reiktu apjungti po didesniu tutorials objektu. Bet passinu i pavienius
+//   tutorial komponentus.
+//   Realiai pasidaro tutorials[]: {title, description, img, properties}, {...}
+// - Multiple tasks, velgi analogiskai apjungiu, gaunasi
+//   tasks[]: {description, answer}, {...}
+// - Redux
+
 export interface LevelProps {
   title: string;
   tutorial: string;

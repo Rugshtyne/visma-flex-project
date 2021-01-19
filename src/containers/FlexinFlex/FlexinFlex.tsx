@@ -4,25 +4,24 @@ import Level from '../Level/Level';
 import levelsConfig from '../../assets/levels.json';
 
 const FlexinFlex = (): JSX.Element => {
+  const [levels, setLevels] = useState(levelsConfig);
   const [currentLevel, setCurrentLevel] = useState(0);
-
-  const toggleLevel = () => {
-    if (currentLevel === 0) {
-      setCurrentLevel(1);
-    } else setCurrentLevel(0);
-  };
 
   return (
     <>
       <h1>{'I\'m FlexinFlex!'}</h1>
-      <button type="button" onClick={toggleLevel}>Toggle Levels</button>
+      {levels.map((level, index) => (
+        <button key={level.title} type="button" onClick={() => setCurrentLevel(index)}>
+          {`Level ${index + 1}`}
+        </button>
+      ))}
       <Level
-        title={levelsConfig[currentLevel].title}
-        tutorial={levelsConfig[currentLevel].tutorial}
-        tutorialImg={levelsConfig[currentLevel].tutorialImg}
-        properties={levelsConfig[currentLevel].properties}
-        task={levelsConfig[currentLevel].task}
-        taskAnswer={levelsConfig[currentLevel].taskAnswer}
+        title={levels[currentLevel].title}
+        tutorial={levels[currentLevel].tutorial}
+        tutorialImg={levels[currentLevel].tutorialImg}
+        properties={levels[currentLevel].properties}
+        task={levels[currentLevel].task}
+        taskAnswer={levels[currentLevel].taskAnswer}
       />
     </>
   );
