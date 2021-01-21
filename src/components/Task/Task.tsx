@@ -1,28 +1,28 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { parseCSS } from 'css-parser';
+import { connect, ConnectedProps } from 'react-redux';
 
 import classes from './Task.module.css';
 import compareAnswer, { StyleSheet, convertCSSObjToStyleSheet } from '../../utils/utils';
+import { RootState } from '../../store';
+import { CHANGE_BOXES_STYLESHEET, CHANGE_INPUT_VALUE, SET_SUCCESS } from '../../store/task/types';
 
-interface TaskProps {
+interface TaskProps extends PropsFromRedux {
   task: string;
   taskAnswer: CSS.Object[];
 }
 
 const Task = (props: TaskProps): JSX.Element => {
-  const [inputValue, setInputValue] = useState('');
-  const [success, setSuccess] = useState(false);
-  const [boxesStyleSheet, setBoxesStyleSheet] = useState<StyleSheet>({});
+  const { tsk, task, taskAnswer } = props;
+  const { inputValue, success, boxesStyleSheet } = tsk;
 
-  const { task, taskAnswer } = props;
-
-  const inputChangeHandler = (event: { target: { value: React.SetStateAction<string>; }; }) => {
-    setInputValue(event.target.value);
+  const inputChangeHandler = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    props.changeInputValue(event.target.value);
   };
 
   useEffect(() => {
-    setSuccess(compareAnswer(taskAnswer, parseCSS(inputValue)));
-    setBoxesStyleSheet(convertCSSObjToStyleSheet(parseCSS(inputValue)));
+    props.setSuccess(compareAnswer(taskAnswer, parseCSS(inputValue)));
+    props.changeBoxesStyleSheet(convertCSSObjToStyleSheet(parseCSS(inputValue)));
   }, [inputValue]);
 
   return (
@@ -43,4 +43,33 @@ const Task = (props: TaskProps): JSX.Element => {
   );
 };
 
-export default Task;
+const mapState = (state: RootState) => ({
+  tsk: state.task,
+});
+
+const mapDispatch = {
+  changeInputValue: (newInputValue: string) => (
+    {
+      type: CHANGE_INPUT_VALUE,
+      payload: newInputValue,
+    }
+  ),
+  setSuccess: (isSuccess: boolean) => (
+    {
+      type: SET_SUCCESS,
+      payload: isSuccess,
+    }
+  ),
+  changeBoxesStyleSheet: (newStyleSheet: StyleSheet) => (
+    {
+      type: CHANGE_BOXES_STYLESHEET,
+      payload: newStyleSheet,
+    }
+  ),
+};
+
+const connector = connect(mapState, mapDispatch);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+export default connector(Task);
