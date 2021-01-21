@@ -16,7 +16,7 @@ export const convertCSSObjToStyleSheet = (cssObject: CSS.Object[]): StyleSheet =
   return convertedObject;
 };
 
-const compareAnswer = (answerObject: CSS.Object[], inputObject: CSS.Object[]): boolean => {
+export const compareAnswer = (answerObject: CSS.Object[], inputObject: CSS.Object[]): boolean => {
   // --- Tikrinu ar visi atsakymo style'ai yra tarp išparse'into CSS objekto:
   // Ar kiekvienas atsakymo style blokas ...
   const answerIsCorrect = answerObject.every((answerStyle) => (
@@ -36,5 +36,3 @@ const compareAnswer = (answerObject: CSS.Object[], inputObject: CSS.Object[]): b
   ));
   return answerIsCorrect;
 };
-
-export default compareAnswer;

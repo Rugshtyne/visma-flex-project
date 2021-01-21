@@ -1,4 +1,4 @@
-import compareAnswer from './utils';
+import { compareAnswer } from './utils';
 
 describe('compareAnswer', () => {
   const answerObject = [

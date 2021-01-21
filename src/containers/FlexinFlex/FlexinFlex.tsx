@@ -3,11 +3,15 @@ import { connect, ConnectedProps } from 'react-redux';
 
 import Level from '../Level/Level';
 import { RootState } from '../../store';
-import { CHANGE_CURRENT_LEVEL, CHANGE_LEVELS, ILevels } from '../../store/flexinflex/types';
+import { CHANGE_CURRENT_LEVEL } from '../../store/flexinflex/types';
 
+import levels from '../../assets/levels_new.json';
+
+// TODO:
+// - move to App
 const FlexinFlex = (props: PropsFromRedux): JSX.Element => {
   const { flx } = props;
-  const { levels, currentLevel } = flx;
+  const { currentLevel } = flx;
 
   return (
     <>
@@ -19,11 +23,8 @@ const FlexinFlex = (props: PropsFromRedux): JSX.Element => {
       ))}
       <Level
         title={levels[currentLevel].title}
-        tutorial={levels[currentLevel].tutorial}
-        tutorialImg={levels[currentLevel].tutorialImg}
-        properties={levels[currentLevel].properties}
-        task={levels[currentLevel].task}
-        taskAnswer={levels[currentLevel].taskAnswer}
+        tutorials={levels[currentLevel].tutorials}
+        tasks={levels[currentLevel].tasks}
       />
     </>
   );
@@ -34,12 +35,6 @@ const mapState = (state: RootState) => ({
 });
 
 const mapDispatch = {
-  changeLevels: (newLevels: ILevels[]) => (
-    {
-      type: CHANGE_LEVELS,
-      payload: newLevels,
-    }
-  ),
   changeCurrentLevel: (newCurrentLevel: number) => (
     {
       type: CHANGE_CURRENT_LEVEL,

@@ -2,32 +2,31 @@ import React from 'react';
 
 import classes from './Tutorial.module.css';
 
-export interface TutorialProperties {
-  property: string;
+export interface ITutorial {
   description: string;
+  img: string;
+  properties?: { property: string, description: string }[];
 }
 
-interface TutorialProps {
-  tutorial: string;
-  tutorialImg: string;
-  properties?: TutorialProperties[];
+interface TutorialProps extends ITutorial {
   title: string;
 }
 
 const Tutorial = (props: TutorialProps): JSX.Element => {
   const {
-    tutorial,
-    tutorialImg,
+    description,
+    img,
     properties,
     title,
   } = props;
 
+  // Pacheckint react + markdown
   return (
     <div className={classes.tutorial}>
       <div className={classes.description}>
-        <p>{tutorial}</p>
+        <p>{description}</p>
         <img
-          src={tutorialImg}
+          src={img}
           alt={title}
         />
       </div>

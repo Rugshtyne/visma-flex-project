@@ -24,6 +24,7 @@ module.exports = {
   rules: {
     'react/prop-types': 'off', // Since we do not use prop-types
     'react/require-default-props': 'off', // Since we do not use prop-type
+    'import/prefer-default-export': 'off',
   },
   settings: {
     react: {

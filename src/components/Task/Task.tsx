@@ -3,17 +3,22 @@ import { parseCSS } from 'css-parser';
 import { connect, ConnectedProps } from 'react-redux';
 
 import classes from './Task.module.css';
-import compareAnswer, { StyleSheet, convertCSSObjToStyleSheet } from '../../utils/utils';
+import { compareAnswer, StyleSheet, convertCSSObjToStyleSheet } from '../../utils/utils';
 import { RootState } from '../../store';
 import { CHANGE_BOXES_STYLESHEET, CHANGE_INPUT_VALUE, SET_SUCCESS } from '../../store/task/types';
 
-interface TaskProps extends PropsFromRedux {
-  task: string;
-  taskAnswer: CSS.Object[];
+export interface ITask {
+  description: string;
+  answer: CSS.Object[];
 }
 
+type TaskProps = ITask & PropsFromRedux;
+
+// TODO:
+// - Saugot input value kiekvienam taskui/exercise reduxe
+
 const Task = (props: TaskProps): JSX.Element => {
-  const { tsk, task, taskAnswer } = props;
+  const { tsk, description, answer } = props;
   const { inputValue, success, boxesStyleSheet } = tsk;
 
   const inputChangeHandler = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -21,13 +26,13 @@ const Task = (props: TaskProps): JSX.Element => {
   };
 
   useEffect(() => {
-    props.setSuccess(compareAnswer(taskAnswer, parseCSS(inputValue)));
+    props.setSuccess(compareAnswer(answer, parseCSS(inputValue)));
     props.changeBoxesStyleSheet(convertCSSObjToStyleSheet(parseCSS(inputValue)));
   }, [inputValue]);
 
   return (
     <div className={classes.task}>
-      <p>{task}</p>
+      <p>{description}</p>
       <div className={classes.taskArea}>
         <textarea value={inputValue} onChange={inputChangeHandler} />
         <div className={classes.viewBox}>
