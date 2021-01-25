@@ -11,7 +11,7 @@ code {
     monospace;
 }
 
-button {
+/* button {
   font-family: inherit;
   font-size: 0.75em;
   background-color: ivory;
@@ -26,4 +26,4 @@ button {
 button:hover,
 button:active {
   background-color: rgb(245, 245, 173);
-}
+} */

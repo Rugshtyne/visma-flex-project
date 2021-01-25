@@ -1,10 +1,12 @@
 import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
+import { Button } from 'react-bootstrap';
 
-import Tutorial, { ITutorial } from '../../components/Tutorial/Tutorial';
-import Task, { ITask } from '../../components/Task/Task';
+import Tutorial, { ITutorial } from '../Tutorial/Tutorial';
+import Task, { ITask } from '../Task/Task';
 import { RootState } from '../../store';
 import { SET_CURRENT_TASK_OR_TUTORIAL, TOGGLE_TUTORIAL_MODE } from '../../store/level/types';
+import classes from './Level.module.css';
 
 // TODO:
 // - Levelis gali tureti multiple tutorials ir multiple img, properties,
@@ -31,9 +33,11 @@ const Level = (props: LevelProps): JSX.Element => {
   const { currentTaskOrTutorial, tutorialMode } = lvl;
 
   return (
-    <>
-      <h2>{title}</h2>
-      <button type="button" onClick={() => props.toggleTutorialMode()}>To Task</button>
+    <div className={classes.Level}>
+      <div className={classes.Header}>
+        <h2>{title}</h2>
+        <Button variant="dark" onClick={() => props.toggleTutorialMode()}>{tutorialMode ? 'To Task' : 'To Tutorial'}</Button>
+      </div>
       {tutorialMode && (
         <Tutorial
           title={title}
@@ -48,7 +52,7 @@ const Level = (props: LevelProps): JSX.Element => {
           answer={tasks[currentTaskOrTutorial].answer}
         />
       )}
-    </>
+    </div>
   );
 };
 

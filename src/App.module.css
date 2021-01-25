@@ -1,0 +1,27 @@
+.App {
+  display: flex;
+  height: 100vh;
+}
+
+.DarkNavBrand {
+
+}
+
+.DarkNavBrand > a {
+  color: #343a40;
+  background-color: rgb(212, 181, 40);
+  font-size: 1.5rem;
+}
+
+.DarkNavBrand > a:hover {
+  color: #f8f9fa;
+}
+
+.DarkDropdown > a {
+  color: #f8f9fa;
+}
+
+.DarkDropdown > a:hover {
+  color: #cbd3da;
+  background-color: #1d2124;
+}
