@@ -30,6 +30,10 @@ const Task = (props: TaskProps): JSX.Element => {
     props.changeBoxesStyleSheet(convertCSSObjToStyleSheet(parseCSS(inputValue)));
   }, [inputValue]);
 
+  useEffect(() => {
+    props.setSuccess(compareAnswer(answer, parseCSS(inputValue)));
+  }, [answer]);
+
   return (
     <div className={classes.task}>
       <p>{description}</p>

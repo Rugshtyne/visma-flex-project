@@ -4,11 +4,12 @@ import {
   Nav,
   NavDropdown,
 } from 'react-bootstrap';
+// import { capitalize } from 'lodash';
 
-import Level from './components/Level/Level';
+import SubLevel from './components/SubLevel/SubLevel';
 import { RootState } from './store';
 import { CHANGE_CURRENT_LEVEL } from './store/flexinflex/types';
-import levels from './assets/levels_new.json';
+import levels from './assets/levels_01-25.json';
 import classes from './App.module.css';
 
 const App = (props: PropsFromRedux): JSX.Element => {
@@ -23,16 +24,23 @@ const App = (props: PropsFromRedux): JSX.Element => {
         </Nav.Item>
         <NavDropdown className={classes.DarkDropdown} id="nav-dropdown" drop="right" title="Levels">
           {levels.map((level, index) => (
-            <NavDropdown.Item key={level.title} onClick={() => props.changeCurrentLevel(index)}>
-              {level.title}
-            </NavDropdown.Item>
+            <NavDropdown key={`nav-dropdown-level-${level.title}`} id={`nav-dropdown-level-${index}`} drop="right" title={level.title}>
+              {level.subLevels.map((subLevel, subLevelIndex) => (
+                <NavDropdown.Item
+                  key={subLevel.title}
+                  onClick={() => props.changeCurrentLevel(subLevelIndex)}
+                >
+                  {subLevel.title}
+                </NavDropdown.Item>
+              ))}
+            </NavDropdown>
           ))}
         </NavDropdown>
       </Nav>
-      <Level
-        title={levels[currentLevel].title}
-        tutorials={levels[currentLevel].tutorials}
-        tasks={levels[currentLevel].tasks}
+      <SubLevel
+        title={levels[0].subLevels[currentLevel].title}
+        tutorial={levels[0].subLevels[currentLevel].tutorial}
+        task={levels[0].subLevels[currentLevel].task}
       />
     </div>
   );

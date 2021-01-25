@@ -6,27 +6,28 @@ import Tutorial, { ITutorial } from '../Tutorial/Tutorial';
 import Task, { ITask } from '../Task/Task';
 import { RootState } from '../../store';
 import { SET_CURRENT_TASK_OR_TUTORIAL, TOGGLE_TUTORIAL_MODE } from '../../store/level/types';
-import classes from './Level.module.css';
+import classes from './SubLevel.module.css';
 
 // TODO:
-// - Levelis gali tureti multiple tutorials ir multiple img, properties,
-//   tiesiog reiktu apjungti po didesniu tutorials objektu. Bet passinu i pavienius
-//   tutorial komponentus.
-//   Realiai pasidaro tutorials[]: {title, description, img, properties}, {...}
-// - Multiple tasks, velgi analogiskai apjungiu, gaunasi
-//   tasks[]: {description, answer}, {...}
+// - UI: Splittint dropdowną, kai yra Level, kad galima būtų nueit ir į Level landingą ir į
+//      SubLevels dropdowną, check https://bit.dev/react-bootstrap/react-bootstrap/nav-dropdown/~code
+// - Level turi daug SubLevel, labiau wrappinantis componentas
+// - Pagalvot apie navigacija, t.y. kaip sudeliot navigacija jei naudoju reduxe CurrentNode
+//      kuris rodo kuriame levelyje/sublevelyje dabar esu (realiai navigacija remiantis indeksavimu,
+//      pvz. jei esu 2 Levelyje, tai indeksas '2-0', jei 3-cio Levelio 2-ame SubLevelyje - '3-2' ir
+//      pagal tai renderint matoma komponenta.
 
-export interface LevelProps extends PropsFromRedux {
+export interface SubLevelProps extends PropsFromRedux {
   title: string;
-  tutorials: ITutorial[];
-  tasks: ITask[];
+  tutorial: ITutorial;
+  task: ITask;
 }
 
-const Level = (props: LevelProps): JSX.Element => {
+const SubLevel = (props: SubLevelProps): JSX.Element => {
   const {
     title,
-    tutorials,
-    tasks,
+    tutorial,
+    task,
     lvl,
   } = props;
 
@@ -41,15 +42,15 @@ const Level = (props: LevelProps): JSX.Element => {
       {tutorialMode && (
         <Tutorial
           title={title}
-          description={tutorials[currentTaskOrTutorial].description}
-          img={tutorials[currentTaskOrTutorial].img}
-          properties={tutorials[currentTaskOrTutorial].properties}
+          description={tutorial.description}
+          img={tutorial.img}
+          properties={tutorial.properties}
         />
       )}
       {!tutorialMode && (
         <Task
-          description={tasks[currentTaskOrTutorial].description}
-          answer={tasks[currentTaskOrTutorial].answer}
+          description={task.description}
+          answer={task.answer}
         />
       )}
     </div>
@@ -78,4 +79,4 @@ const connector = connect(mapState, mapDispatch);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
-export default connector(Level);
+export default connector(SubLevel);
