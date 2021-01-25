@@ -3,10 +3,6 @@
   height: 100vh;
 }
 
-.DarkNavBrand {
-
-}
-
 .DarkNavBrand > a {
   color: #343a40;
   background-color: rgb(212, 181, 40);
