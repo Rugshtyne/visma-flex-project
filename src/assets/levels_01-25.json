@@ -1,9 +1,11 @@
 [
 	{
 		"title": "Centering",
+		"description": "This level shows how flex solves CSS problems related to centering.",
 		"subLevels": [
 			{
 				"title": "flex-direction",
+				"description": "Property defining the main-axis of the flex.",
 				"tutorial": {
 						"description": "This establishes the main-axis, thus defining the direction flex items are placed in the flex container. Flexbox is (aside from optional wrapping) a single-direction layout concept. Think of flex items as primarily laying out either in horizontal rows or vertical columns.",
 						"img": "https://css-tricks.com/wp-content/uploads/2018/10/flex-direction.svg",
@@ -47,6 +49,7 @@
 			},
 			{
 				"title": "align-self",
+				"description": "Property which allows individual elements to align themselves related to the flex axis.",
 				"tutorial": {
 						"description": "This allows the default alignment (or the one specified by align-items) to be overridden for individual flex items.\n\n      Please see the align-items explanation to understand the available values.\n\n      Note that float, clear and vertical-align have no effect on a flex item.",
 						"img": "https://css-tricks.com/wp-content/uploads/2018/10/align-self.svg",

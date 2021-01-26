@@ -3,76 +3,100 @@ import { parseCSS } from 'css-parser';
 import { connect, ConnectedProps } from 'react-redux';
 
 import classes from './Task.module.css';
-import { compareAnswer, StyleSheet, convertCSSObjToStyleSheet } from '../../utils/utils';
+import { compareAnswer, convertCSSObjToStyleSheet } from '../../utils/utils';
 import { RootState } from '../../store';
-import { CHANGE_BOXES_STYLESHEET, CHANGE_INPUT_VALUE, SET_SUCCESS } from '../../store/task/types';
+import { CHANGE_TASK_INPUTS, CHANGE_TASKS_COMPLETED } from '../../store/actions/actions';
 
 export interface ITask {
   description: string;
   answer: CSS.Object[];
 }
 
-type TaskProps = ITask & PropsFromRedux;
+interface TaskProps extends ITask, PropsFromRedux {
+  index: number;
+}
+
+// type TaskProps = ITask & PropsFromRedux;
 
 // TODO:
 // - Saugot input value kiekvienam taskui/exercise reduxe
 
 const Task = (props: TaskProps): JSX.Element => {
-  const { tsk, description, answer } = props;
-  const { inputValue, success, boxesStyleSheet } = tsk;
+  const {
+    app,
+    index,
+    description,
+    answer,
+  } = props;
+  const { taskInputs, tasksCompleted } = app;
 
   const inputChangeHandler = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    props.changeInputValue(event.target.value);
+    const taskInputsTemp = [...taskInputs];
+    taskInputsTemp[index] = event.target.value;
+    props.changeTaskInputs(taskInputsTemp);
+  };
+
+  const updateAnswers = () => {
+    const tasksCompletedTemp = [...tasksCompleted];
+    const completedFlag = compareAnswer(answer, parseCSS(taskInputs[index]));
+    tasksCompletedTemp[index] = completedFlag;
+    props.changeTasksCompleted(tasksCompletedTemp);
   };
 
   useEffect(() => {
-    props.setSuccess(compareAnswer(answer, parseCSS(inputValue)));
-    props.changeBoxesStyleSheet(convertCSSObjToStyleSheet(parseCSS(inputValue)));
-  }, [inputValue]);
-
-  useEffect(() => {
-    props.setSuccess(compareAnswer(answer, parseCSS(inputValue)));
-  }, [answer]);
+    updateAnswers();
+    // props.changeBoxesStyleSheet(convertCSSObjToStyleSheet(parseCSS(inputValue)));
+  }, [taskInputs[index], answer]);
 
   return (
     <div className={classes.task}>
       <p>{description}</p>
       <div className={classes.taskArea}>
-        <textarea value={inputValue} onChange={inputChangeHandler} />
+        <textarea value={taskInputs[index]} onChange={inputChangeHandler} />
         <div className={classes.viewBox}>
-          <div className="boxes" style={boxesStyleSheet.boxes ? boxesStyleSheet.boxes : undefined}>
-            <div className={`${classes.box} box1`} style={boxesStyleSheet.box1 ? boxesStyleSheet.box1 : undefined} />
-            <div className={`${classes.box} box2`} style={boxesStyleSheet.box2 ? boxesStyleSheet.box2 : undefined} />
-            <div className={`${classes.box} box3`} style={boxesStyleSheet.box3 ? boxesStyleSheet.box3 : undefined} />
+          <div
+            className="boxes"
+            style={convertCSSObjToStyleSheet(parseCSS(taskInputs[index])).boxes
+              ? convertCSSObjToStyleSheet(parseCSS(taskInputs[index])).boxes : undefined}
+          >
+            <div
+              className={`${classes.box} box1`}
+              style={convertCSSObjToStyleSheet(parseCSS(taskInputs[index])).box1
+                ? convertCSSObjToStyleSheet(parseCSS(taskInputs[index])).box1 : undefined}
+            />
+            <div
+              className={`${classes.box} box2`}
+              style={convertCSSObjToStyleSheet(parseCSS(taskInputs[index])).box2
+                ? convertCSSObjToStyleSheet(parseCSS(taskInputs[index])).box2 : undefined}
+            />
+            <div
+              className={`${classes.box} box3`}
+              style={convertCSSObjToStyleSheet(parseCSS(taskInputs[index])).box3
+                ? convertCSSObjToStyleSheet(parseCSS(taskInputs[index])).box3 : undefined}
+            />
           </div>
         </div>
       </div>
-      {success ? <h2>SUCCESS!</h2> : null}
+      {tasksCompleted[index] ? <h2>SUCCESS!</h2> : null}
     </div>
   );
 };
 
 const mapState = (state: RootState) => ({
-  tsk: state.task,
+  app: state.app,
 });
 
 const mapDispatch = {
-  changeInputValue: (newInputValue: string) => (
+  changeTaskInputs: (newTaskInputs: string[]) => (
     {
-      type: CHANGE_INPUT_VALUE,
-      payload: newInputValue,
+      type: CHANGE_TASK_INPUTS,
+      payload: newTaskInputs,
     }
   ),
-  setSuccess: (isSuccess: boolean) => (
+  changeTasksCompleted: (newTasksCompleted: boolean[]) => (
     {
-      type: SET_SUCCESS,
-      payload: isSuccess,
-    }
-  ),
-  changeBoxesStyleSheet: (newStyleSheet: StyleSheet) => (
-    {
-      type: CHANGE_BOXES_STYLESHEET,
-      payload: newStyleSheet,
+      type: CHANGE_TASKS_COMPLETED,
+      payload: newTasksCompleted,
     }
   ),
 };

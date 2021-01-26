@@ -1,12 +1,8 @@
 import { combineReducers } from 'redux';
-import flexinFlexReducer from './flexinflex/reducers';
-import levelReducer from './level/reducers';
-import taskReducer from './task/reducers';
+import { appReducer } from './reducers/reducers';
 
 export const rootReducer = combineReducers({
-  task: taskReducer,
-  level: levelReducer,
-  flexinFlex: flexinFlexReducer,
+  app: appReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
