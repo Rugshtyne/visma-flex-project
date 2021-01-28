@@ -2,14 +2,11 @@ import React from 'react';
 
 import classes from './Tutorial.module.css';
 
-export interface ITutorial {
+interface TutorialProps {
+  title: string;
   description: string;
   img: string;
   properties?: { property: string, description: string }[];
-}
-
-interface TutorialProps extends ITutorial {
-  title: string;
 }
 
 const Tutorial = (props: TutorialProps): JSX.Element => {

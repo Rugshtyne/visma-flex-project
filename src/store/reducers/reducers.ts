@@ -7,9 +7,12 @@ import {
 } from '../actions/actions';
 
 const initialState: AppState = {
-  currentNode: [-1, -1],
-  taskInputs: [],
-  tasksCompleted: [],
+  currentNode: {
+    nodeId: '',
+    isSubLevel: false,
+  },
+  taskInputs: {},
+  tasksCompleted: {},
 };
 
 export const appReducer = (

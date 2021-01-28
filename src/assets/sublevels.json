@@ -1,8 +1,9 @@
 [
 	{
-		"title": "Level 1: flex-direction",
-		"tutorials": [
-			{
+		"id": "sublevel-001",
+		"title": "flex-direction",
+		"description": "Property defining the main-axis of the flex.",
+		"tutorial": {
 				"description": "This establishes the main-axis, thus defining the direction flex items are placed in the flex container. Flexbox is (aside from optional wrapping) a single-direction layout concept. Think of flex items as primarily laying out either in horizontal rows or vertical columns.",
 				"img": "https://css-tricks.com/wp-content/uploads/2018/10/flex-direction.svg",
 				"properties": [
@@ -23,10 +24,8 @@
 						"description": "same as row-reverse but bottom to top"
 					}
 				]
-			}
-		],
-		"tasks": [
-			{
+		},
+		"task": {
 				"description": "Edit the box class CSS so that the three boxes would line up in a column.",
 				"answer": [
 					{
@@ -43,13 +42,13 @@
 						]
 					}
 				]
-			}
-		]
+		}
 	},
 	{
-		"title": "Level 2: align-self",
-		"tutorials": [
-			{
+		"id": "sublevel-002",
+		"title": "align-self",
+		"description": "Property which allows individual elements to align themselves related to the flex axis.",
+		"tutorial": {
 				"description": "This allows the default alignment (or the one specified by align-items) to be overridden for individual flex items.\n\n      Please see the align-items explanation to understand the available values.\n\n      Note that float, clear and vertical-align have no effect on a flex item.",
 				"img": "https://css-tricks.com/wp-content/uploads/2018/10/align-self.svg",
 				"properties": [
@@ -74,36 +73,33 @@
 						"description": "items are aligned such as their baselines align"
 					}
 				]
-			}
-		],
-		"tasks": [
-			{
-				"description": "Edit the boxes class so that all of the boxes would line up in a column and edit the middle-box (box2) class CSS so that the middle box would align itself to the right of the viewbox.",
-				"answer": [
-					{
-						"selector": ".box2",
-						"rules": [
-							{
-								"key": "align-self",
-								"value": "flex-end"
-							}
-						]
-					},
-					{
-						"selector": ".boxes",
-						"rules": [
-							{
-								"key": "display",
-								"value": "flex"
-							},
-							{
-								"key": "flex-direction",
-								"value": "column"
-							}
-						]
-					}
-				]
-			}
-		]
+		},
+		"task": {
+			"description": "Edit the boxes class so that all of the boxes would line up in a column and edit the middle-box (box2) class CSS so that the middle box would align itself to the right of the viewbox.",
+			"answer": [
+				{
+					"selector": ".box2",
+					"rules": [
+						{
+							"key": "align-self",
+							"value": "flex-end"
+						}
+					]
+				},
+				{
+					"selector": ".boxes",
+					"rules": [
+						{
+							"key": "display",
+							"value": "flex"
+						},
+						{
+							"key": "flex-direction",
+							"value": "column"
+						}
+					]
+				}
+			]
+		}
 	}
 ]

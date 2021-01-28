@@ -1,85 +1,49 @@
 import React from 'react';
-// import { connect, ConnectedProps } from 'react-redux';
-// import { Button } from 'react-bootstrap';
+import { connect, ConnectedProps } from 'react-redux';
 
-import Tutorial, { ITutorial } from '../Tutorial/Tutorial';
-import Task, { ITask } from '../Task/Task';
-// import { RootState } from '../../store';
-// import { SET_CURRENT_TASK_OR_TUTORIAL, TOGGLE_TUTORIAL_MODE } from '../../store/actions/actions';
+import Tutorial from '../Tutorial/Tutorial';
+import Task from '../Task/Task';
 import classes from './SubLevel.module.css';
+import { RootState } from '../../store';
+import subLevels from '../../assets/sublevels.json';
+import { Error } from '../Error/Error';
 
-// TODO:
-// - UI: Splittint dropdowną, kai yra Level, kad galima būtų nueit ir į Level landingą ir į
-//      SubLevels dropdowną, check https://bit.dev/react-bootstrap/react-bootstrap/nav-dropdown/~code
-// - Level turi daug SubLevel, labiau wrappinantis componentas
-// - Pagalvot apie navigacija, t.y. kaip sudeliot navigacija jei naudoju reduxe CurrentNode
-//      kuris rodo kuriame levelyje/sublevelyje dabar esu (realiai navigacija remiantis indeksavimu,
-//      pvz. jei esu 2 Levelyje, tai indeksas '2-0', jei 3-cio Levelio 2-ame SubLevelyje - '3-2' ir
-//      pagal tai renderint matoma komponenta.
+const SubLevelRaw = (props: PropsFromRedux): JSX.Element => {
+  const { currentNode } = props;
 
-export interface ISubLevel {
-  title: string;
-  description: string;
-  tutorial: ITutorial;
-  task: ITask;
-}
+  const thisSubLevel = subLevels.find((subLevel) => subLevel.id === currentNode.nodeId);
 
-// export type SubLevelProps = ISubLevel & PropsFromRedux;
-interface SubLevelProps extends ISubLevel {
-  index: number;
-}
-
-const SubLevel = (props: SubLevelProps): JSX.Element => {
-  const {
-    index,
-    title,
-    tutorial,
-    task,
-    // app,
-  } = props;
-
-  // const { currentTaskOrTutorial, tutorialMode } = app;
-
+  if (thisSubLevel === undefined) {
+    return (
+      <Error errorMessage="Error occurred. Missing SubLevel info." />
+    );
+  }
   return (
-    <div className={classes.Level}>
+    <div className={classes.SubLevel}>
       <div className={classes.Header}>
-        <h2>{title}</h2>
+        <h2>{thisSubLevel.title}</h2>
       </div>
       <Tutorial
-        title={title}
-        description={tutorial.description}
-        img={tutorial.img}
-        properties={tutorial.properties}
+        title={thisSubLevel.title}
+        description={thisSubLevel.tutorial.description}
+        img={thisSubLevel.tutorial.img}
+        properties={thisSubLevel.tutorial.properties}
       />
       <Task
-        index={index}
-        description={task.description}
-        answer={task.answer}
+        id={thisSubLevel.id}
+        description={thisSubLevel.task.description}
+        answer={thisSubLevel.task.answer}
       />
     </div>
   );
 };
 
-// const mapState = (state: RootState) => ({
-//   app: state.app,
-// });
+const mapState = (state: RootState) => ({
+  currentNode: state.app.currentNode,
+});
 
-// const mapDispatch = {
-//   setCurrentTaskOrTutorial: (newCurrent: number) => (
-//     {
-//       type: SET_CURRENT_TASK_OR_TUTORIAL,
-//       payload: newCurrent,
-//     }
-//   ),
-//   toggleTutorialMode: () => (
-//     {
-//       type: TOGGLE_TUTORIAL_MODE,
-//     }
-//   ),
-// };
+const connector = connect(mapState);
 
-// const connector = connect(mapState, mapDispatch);
+type PropsFromRedux = ConnectedProps<typeof connector>;
 
-// type PropsFromRedux = ConnectedProps<typeof connector>;
-
-export default SubLevel;
+export const SubLevel = connector(SubLevelRaw);
