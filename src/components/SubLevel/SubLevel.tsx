@@ -2,7 +2,7 @@ import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 
 import Tutorial from '../Tutorial/Tutorial';
-import Task from '../Task/Task';
+import { Task } from '../Task/Task';
 import classes from './SubLevel.module.css';
 import { RootState } from '../../store';
 import subLevels from '../../assets/sublevels.json';

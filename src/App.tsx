@@ -5,7 +5,6 @@ import { SubLevel } from './components/SubLevel/SubLevel';
 import { RootState } from './store';
 import classes from './App.module.css';
 import Landing from './components/Landing/Landing';
-import Level from './components/Level/Level';
 import { Navigation } from './components/Navigation/Navigation';
 
 const App = (props: PropsFromRedux): JSX.Element => {
@@ -16,8 +15,6 @@ const App = (props: PropsFromRedux): JSX.Element => {
       <Navigation />
       { !currentNode.nodeId
         && <Landing />}
-      { currentNode.nodeId && !currentNode.isSubLevel
-        && <Level />}
       { currentNode.nodeId && currentNode.isSubLevel
         && <SubLevel />}
     </div>

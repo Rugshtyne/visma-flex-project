@@ -13,7 +13,12 @@
 }
 
 .description img {
+    max-width: 400px;
     padding: 20px;
+}
+
+.description p {
+    min-width: 50%;
 }
 
 .properties {

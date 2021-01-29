@@ -1,0 +1,10 @@
+.TaskInput {
+  font-family: inherit;
+  resize: none;
+  font-size: 1em;
+  color:ivory;
+  background-color: #333333;
+  border-radius: 16px;
+  height: 300px;
+  outline: none;
+}

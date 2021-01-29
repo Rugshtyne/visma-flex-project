@@ -3,81 +3,64 @@ import { parseCSS } from 'css-parser';
 import { connect, ConnectedProps } from 'react-redux';
 
 import classes from './Task.module.css';
-import { compareAnswer, convertCSSObjToStyleSheet } from '../../utils/utils';
+import { compareAnswer } from '../../utils/utils';
 import { RootState } from '../../store';
-import { changeTaskInputs, changeTasksCompleted } from '../../store/actions/actions';
+import { changeTasksCompleted } from '../../store/actions/actions';
+import { TaskInput } from './TaskInput/TaskInput';
+import { TaskViewbox } from './TaskViewbox/TaskViewbox';
 
+// pabaigt redux ir apacioj svarbus note
 interface TaskProps extends PropsFromRedux {
   id: string;
   description: string;
   answer: CSS.Object[];
 }
 
-const Task = (props: TaskProps): JSX.Element => {
+const TaskRaw = (props: TaskProps): JSX.Element => {
   const {
     id,
     description,
     answer,
-    taskInputs,
+    taskInput,
     tasksCompleted,
   } = props;
 
-  const styleSheet = convertCSSObjToStyleSheet(parseCSS(taskInputs[id] ?? ''));
-
-  const inputChangeHandler = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const taskInputsTemp = { ...taskInputs };
-    taskInputsTemp[id] = event.target.value;
-    props.changeTaskInputs(taskInputsTemp);
-  };
-
   const updateAnswers = () => {
     const tasksCompletedTemp = { ...tasksCompleted };
-    const completedFlag = compareAnswer(answer, parseCSS(taskInputs[id] ?? ''));
+    const completedFlag = compareAnswer(answer, parseCSS(taskInput ?? ''));
     tasksCompletedTemp[id] = completedFlag;
     props.changeTasksCompleted(tasksCompletedTemp);
   };
 
   useEffect(() => {
     updateAnswers();
-  }, [taskInputs[id], answer]);
+  }, [taskInput, answer]);
 
   return (
-    <div className={classes.task}>
+    <div className={classes.Task}>
       <p>{description}</p>
       <div className={classes.taskArea}>
-        <textarea value={taskInputs[id] ?? ''} onChange={inputChangeHandler} />
-        <div className={classes.viewBox}>
-          <div
-            className="boxes"
-            style={styleSheet.boxes ?? {}}
-          >
-            <div
-              className={`${classes.box} box1`}
-              style={styleSheet.box1 ?? {}}
-            />
-            <div
-              className={`${classes.box} box2`}
-              style={styleSheet.box2 ?? {}}
-            />
-            <div
-              className={`${classes.box} box3`}
-              style={styleSheet.box3 ?? {}}
-            />
-          </div>
-        </div>
+        <TaskInput id={id} />
+        <TaskViewbox id={id} />
       </div>
       {tasksCompleted[id] ? <h2>SUCCESS!</h2> : null}
     </div>
   );
 };
 
-const mapState = (state: RootState) => ({
-  taskInputs: state.app.taskInputs,
-  tasksCompleted: state.app.tasksCompleted,
-});
+// palikau tasksCompleted, bet perrasyt actiona, kur siunciu viena input ir reduceris
+// pats jau update'ina sukures nauja objekta ir tik zino, kur replace'int pagal ID
+const mapState = (state: RootState) => {
+  const { currentNode, taskInputs, tasksCompleted } = state.app;
+  const id = currentNode.nodeId;
+  const taskInput = taskInputs[id];
+
+  return {
+    taskInput, tasksCompleted,
+  };
+};
 
 const mapDispatch = {
-  changeTaskInputs,
   changeTasksCompleted,
 };
 
@@ -85,4 +68,4 @@ const connector = connect(mapState, mapDispatch);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
-export default connector(Task);
+export const Task = connector(TaskRaw);

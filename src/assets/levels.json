@@ -7,5 +7,11 @@
 			"sublevel-001",
 			"sublevel-002"
 		]
+	},
+	{
+		"id": "level-002",
+		"title": "Matching dimensions and dynamic stretching",
+		"description": "This level shows how to use flex in matching different objects heights and dynamically stretch them.",
+		"subLevels": []
 	}
 ]

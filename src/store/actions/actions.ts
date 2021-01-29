@@ -27,8 +27,7 @@ interface ChangeTaskInputsAction {
 
 interface ChangeTasksCompletedAction {
   type: typeof CHANGE_TASKS_COMPLETED;
-  payload: Record<string, boolean>
-  ;
+  payload: Record<string, boolean>;
 }
 
 export type ActionTypes = ChangeCurrentNodeAction |
