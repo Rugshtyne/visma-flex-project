@@ -9,37 +9,40 @@ import subLevels from '../../assets/sublevels.json';
 import { Error } from '../Error/Error';
 
 const SubLevelRaw = (props: PropsFromRedux): JSX.Element => {
-  const { currentNode } = props;
+  const { id, isSubLevel } = props;
 
-  const thisSubLevel = subLevels.find((subLevel) => subLevel.id === currentNode.nodeId);
+  const thisSubLevel = subLevels.find((subLevel) => subLevel.id === id);
 
-  if (thisSubLevel === undefined) {
+  if (isSubLevel) {
+    if (thisSubLevel === undefined) {
+      return (
+        <Error errorMessage="Error occurred. Missing SubLevel info." />
+      );
+    }
     return (
-      <Error errorMessage="Error occurred. Missing SubLevel info." />
+      <div className={classes.SubLevel}>
+        <div className={classes.Header}>
+          <h2>{thisSubLevel.title}</h2>
+        </div>
+        <Tutorial
+          title={thisSubLevel.title}
+          description={thisSubLevel.tutorial.description}
+          img={thisSubLevel.tutorial.img}
+          properties={thisSubLevel.tutorial.properties}
+        />
+        <Task
+          description={thisSubLevel.task.description}
+          answer={thisSubLevel.task.answer}
+        />
+      </div>
     );
   }
-  return (
-    <div className={classes.SubLevel}>
-      <div className={classes.Header}>
-        <h2>{thisSubLevel.title}</h2>
-      </div>
-      <Tutorial
-        title={thisSubLevel.title}
-        description={thisSubLevel.tutorial.description}
-        img={thisSubLevel.tutorial.img}
-        properties={thisSubLevel.tutorial.properties}
-      />
-      <Task
-        id={thisSubLevel.id}
-        description={thisSubLevel.task.description}
-        answer={thisSubLevel.task.answer}
-      />
-    </div>
-  );
+  return (<></>);
 };
 
 const mapState = (state: RootState) => ({
-  currentNode: state.app.currentNode,
+  id: state.app.currentNode.nodeId,
+  isSubLevel: state.app.currentNode.isSubLevel,
 });
 
 const connector = connect(mapState);

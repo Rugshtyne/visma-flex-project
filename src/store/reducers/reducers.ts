@@ -2,8 +2,9 @@ import {
   AppState,
   ActionTypes,
   CHANGE_CURRENT_NODE,
-  CHANGE_TASK_INPUTS,
-  CHANGE_TASKS_COMPLETED,
+  TOGGLE_COLLAPSE,
+  CHANGE_TASK_INPUT,
+  CHANGE_TASK_COMPLETED,
 } from '../actions/actions';
 
 const initialState: AppState = {
@@ -13,6 +14,7 @@ const initialState: AppState = {
   },
   taskInputs: {},
   tasksCompleted: {},
+  showCollapse: false,
 };
 
 export const appReducer = (
@@ -24,16 +26,28 @@ export const appReducer = (
       return {
         ...state,
         currentNode: action.payload,
+        showCollapse: false,
       };
-    case CHANGE_TASK_INPUTS:
+    case CHANGE_TASK_INPUT: {
+      const changedTaskInputs = { ...state.taskInputs };
+      changedTaskInputs[action.payload.id] = action.payload.input;
       return {
         ...state,
-        taskInputs: action.payload,
+        taskInputs: changedTaskInputs,
       };
-    case CHANGE_TASKS_COMPLETED:
+    }
+    case CHANGE_TASK_COMPLETED: {
+      const changedTasksCompleted = { ...state.tasksCompleted };
+      changedTasksCompleted[action.payload.id] = action.payload.completed;
       return {
         ...state,
-        tasksCompleted: action.payload,
+        tasksCompleted: changedTasksCompleted,
+      };
+    }
+    case TOGGLE_COLLAPSE:
+      return {
+        ...state,
+        showCollapse: !state.showCollapse,
       };
     default:
       return state;

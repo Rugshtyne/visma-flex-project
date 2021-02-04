@@ -4,6 +4,7 @@ import './index.css';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { devToolsEnhancer } from 'redux-devtools-extension';
 
 import App from './App';
 import reportWebVitals from './reportWebVitals';
@@ -11,8 +12,7 @@ import { rootReducer } from './store/index';
 
 const store = createStore(
   rootReducer,
-  // eslint-disable-next-line no-underscore-dangle
-  // window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());\
+  devToolsEnhancer({ name: 'FlexinFlex' }),
 );
 
 ReactDOM.render(

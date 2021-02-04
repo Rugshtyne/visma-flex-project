@@ -1,19 +1,19 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Nav,
 } from 'react-bootstrap';
 import { connect, ConnectedProps } from 'react-redux';
 
 import classes from './Navigation.module.css';
-import { changeCurrentNode, INode } from '../../store/actions/actions';
+import { changeCurrentNode, toggleCollapse, INode } from '../../store/actions/actions';
 import { NavigationLevelsSection } from './NavigationLevelsSection/NavigationLevelsSection';
+import { RootState } from '../../store';
 
 const NavigationRaw = (props: PropsFromRedux): JSX.Element => {
-  const [showCollapse, setShowCollapse] = useState(false);
-
   // gal showCollapse det i Redux? reikia ir po Level komponento navigacijos
+  const { showCollapse } = props;
   const navigate = (node: INode) => {
-    setShowCollapse(false);
+    // setShowCollapse(false);
     props.changeCurrentNode(node);
   };
 
@@ -24,7 +24,7 @@ const NavigationRaw = (props: PropsFromRedux): JSX.Element => {
           <Nav.Link onClick={() => navigate({ nodeId: '', isSubLevel: false })}>FlexinFlex</Nav.Link>
         </Nav.Item>
         <Nav.Item className={classes.DarkDropdown}>
-          <Nav.Link onClick={() => setShowCollapse(!showCollapse)}>Levels</Nav.Link>
+          <Nav.Link onClick={() => props.toggleCollapse()}>Levels</Nav.Link>
         </Nav.Item>
       </Nav>
       <div
@@ -40,11 +40,18 @@ const NavigationRaw = (props: PropsFromRedux): JSX.Element => {
   );
 };
 
+const mapState = (state: RootState) => (
+  {
+    showCollapse: state.app.showCollapse,
+  }
+);
+
 const mapDispatch = {
   changeCurrentNode,
+  toggleCollapse,
 };
 
-const connector = connect(null, mapDispatch);
+const connector = connect(mapState, mapDispatch);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
 

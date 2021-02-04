@@ -2,33 +2,34 @@ import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 
 import { RootState } from '../../../store';
-import { changeTaskInputs } from '../../../store/actions/actions';
+import { changeTaskInput } from '../../../store/actions/actions';
 import classes from './TaskInput.module.css';
 
-interface TaskInputProps extends PropsFromRedux {
-  id: string;
-}
-
-export const TaskInputRaw = (props: TaskInputProps): JSX.Element => {
-  const { id, taskInputs } = props;
+export const TaskInputRaw = (props: PropsFromRedux): JSX.Element => {
+  const { id, taskInput } = props;
 
   const inputChangeHandler = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const taskInputsTemp = { ...taskInputs };
-    taskInputsTemp[id] = event.target.value;
-    props.changeTaskInputs(taskInputsTemp);
+    props.changeTaskInput({ id, input: event.target.value });
   };
 
   return (
-    <textarea className={classes.TaskInput} value={taskInputs[id] ?? ''} onChange={inputChangeHandler} />
+    <textarea className={classes.TaskInput} value={taskInput ?? ''} onChange={inputChangeHandler} />
   );
 };
 
-const mapState = (state: RootState) => ({
-  taskInputs: state.app.taskInputs,
-});
+const mapState = (state: RootState) => {
+  const { currentNode, taskInputs } = state.app;
+  const id = currentNode.nodeId;
+  const taskInput = taskInputs[id];
+
+  return {
+    taskInput,
+    id,
+  };
+};
 
 const mapDispatch = {
-  changeTaskInputs,
+  changeTaskInput,
 };
 
 const connector = connect(mapState, mapDispatch);

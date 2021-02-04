@@ -6,14 +6,10 @@ import { RootState } from '../../../store';
 import { convertCSSObjToStyleSheet } from '../../../utils/utils';
 import classes from './TaskViewbox.module.css';
 
-interface TaskViewboxProps extends PropsFromRedux {
-  id: string;
-}
+export const TaskViewboxRaw = (props: PropsFromRedux): JSX.Element => {
+  const { taskInput } = props;
 
-export const TaskViewboxRaw = (props: TaskViewboxProps): JSX.Element => {
-  const { id, taskInputs } = props;
-
-  const styleSheet = convertCSSObjToStyleSheet(parseCSS(taskInputs[id] ?? ''));
+  const styleSheet = convertCSSObjToStyleSheet(parseCSS(taskInput ?? ''));
 
   return (
     <div className={classes.TaskViewbox}>
@@ -38,10 +34,15 @@ export const TaskViewboxRaw = (props: TaskViewboxProps): JSX.Element => {
   );
 };
 
-const mapState = (state: RootState) => ({
-  taskInputs: state.app.taskInputs,
-});
+const mapState = (state: RootState) => {
+  const { currentNode, taskInputs } = state.app;
+  const id = currentNode.nodeId;
+  const taskInput = taskInputs[id];
 
+  return {
+    taskInput,
+  };
+};
 const connector = connect(mapState);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;

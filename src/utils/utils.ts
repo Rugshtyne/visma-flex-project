@@ -1,3 +1,4 @@
+import { parseCSS } from 'css-parser';
 import { camelCase } from 'lodash';
 
 export interface StyleSheet {
@@ -16,7 +17,8 @@ export const convertCSSObjToStyleSheet = (cssObject: CSS.Object[]): StyleSheet =
   return convertedObject;
 };
 
-export const compareAnswer = (answerObject: CSS.Object[], inputObject: CSS.Object[]): boolean => {
+export const compareAnswer = (answerObject: CSS.Object[], inputString: string): boolean => {
+  const inputObject = parseCSS(inputString ?? '');
   // --- Tikrinu ar visi atsakymo style'ai yra tarp išparse'into CSS objekto:
   // Ar kiekvienas atsakymo style blokas ...
   const answerIsCorrect = answerObject.every((answerStyle) => (

@@ -28,8 +28,8 @@ const NavigationLevelRaw = (props: NavigationLevelProps): JSX.Element => {
         <button
           type="button"
           onClick={() => props.changeCurrentNode({
-            nodeId: subLevels[0],
-            isSubLevel: true,
+            nodeId: subLevels[0] ?? '',
+            isSubLevel: !!subLevels[0],
           })}
         >
           {`${index + 1}. ${title}`}
